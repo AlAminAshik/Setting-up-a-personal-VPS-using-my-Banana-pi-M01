@@ -43,5 +43,12 @@ The steps are:
     * if you get error regarding "failed to create record.." go to cloudfare domain DNS > Records section, and delete existing root record that has your domain name directly, e.g. "name = alaminn.com"
 
 ** Run the Tunnel on bananapi:
-    *  cloudfare tunnel run bananapi-tunnel.
-    *  Done, now it can be accessed your website from using mobile data.
+    *   Run the tunnel: "cloudfare tunnel run bananapi-tunnel"
+    *   To stp the server, press ctrl+c.
+    *   Done, now it can be accessed your website from using mobile data.
+
+** Initialize Tunnel with startup
+   *   install a service "sudo cloudflared service install"
+   *   start the service "sudo systemctl start cloudflared"
+   *   enable the service "sudo systemctl enable cloudflared"
+   *   Check the status if running "systemctl status cloudflared"
