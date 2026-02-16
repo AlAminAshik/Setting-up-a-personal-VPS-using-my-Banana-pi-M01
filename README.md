@@ -53,3 +53,25 @@ The steps are:
    *   start the service "sudo systemctl start cloudflared"
    *   enable the service "sudo systemctl enable cloudflared"
    *   Check the status if running "systemctl status cloudflared"
+
+
+
+
+
+Basics of MariaDB
+   * installing mariaDB: sudo apt install mariadb-server -y
+   * secure database: sudo mysql_secure_installation. Set root password → YES, Remove anonymous users → YES, Disallow root remote login → YES, Remove test database → YES, Reload privileges → YES
+   * opening mariadb: sudo mysql -u root -p
+   * available databases: SHOW databases;
+
+   * creating a database:
+         CREATE DATABASE mywordpress;
+         CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'StrongPassword123!';
+         GRANT ALL PRIVILEGES ON mywordpress.* TO 'wpuser'@'localhost';
+         FLUSH PRIVILEGES;
+         EXIT;
+     
+   * showing tables: SHOW tables;
+   * showing table content (i.e wordpress): SELECT option_name, option_value FROM wp_options WHERE option_name IN ('siteurl','home');
+   * updating table content (i.e wordpress): UPDATE wpxz_options SET option_value='http://alaminn.com' WHERE option_name IN ('siteurl','home');
+
