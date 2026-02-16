@@ -16,7 +16,8 @@ The steps are:
 ****  Bananapi (terminal)
 
 **  Installing webserver  
-    *  install webserver "sudo apt install nginx
+    *  install webserver "sudo apt install nginx"; this will also install "nginx-common";
+    *   check if nginx is properly installed by typing "nginx"; this may output several failed attempts but it means it is working.
     *  Install cloudflared "wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm"
     *  move to local bin "sudo mv cloudflared-linux-arm /usr/local/bin/cloudflared"
     *  add super user executable permission "/usr/local/bin/cloudflared"
