@@ -74,4 +74,17 @@ Basics of MariaDB
    * showing tables: SHOW tables;
    * showing table content (i.e wordpress): SELECT option_name, option_value FROM wp_options WHERE option_name IN ('siteurl','home');
    * updating table content (i.e wordpress): UPDATE wpxz_options SET option_value='http://alaminn.com' WHERE option_name IN ('siteurl','home');
+   * Vieweing all the users: SELECT User, Host FROM mysql.user;
+   * removing a user: DROP USER 'wpuser'@'localhost';
 
+
+Very important:
+* I faced a issue where
+     > the site url and home url from wordpress dashboard setting/mysql table could not be both https. the siteurl can be https but not the home url, otherwise I cannot login to wp-admin. changing both to http worked, but in that case website is unstable, pictures could not load and many issues prevailed since originally the website is https from cloudfare so there is a improper https detection. Even reinstalling mysql and wordpress did not solve. This is solved by:
+     > solved by adding a condition on wp-config.php file. add this condition before the line /* That's all, stop editing! Happy publishing. */
+         define('FORCE_SSL_ADMIN', true);
+         if (strpos($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false) {
+             $_SERVER['HTTPS'] = 'on';
+         } else {
+             $_SERVER['HTTPS'] = 'off';
+         }
