@@ -5,7 +5,7 @@ This repo contains all the processes and steps required to connected a domain fr
 
 The steps are:
 
-**** Dianahost (Domain provider):
+**** Setting up Dianahost (Domain provider):
     *  Go to cloudfare website.
     *  add your domain that is hoster on another platform.
     *  Press onboard a domain, and it will give 2 nameservers.
@@ -13,7 +13,7 @@ The steps are:
     *  wait for some time, and you can verify whether the domain is live from the cloudfare website.
     *  Done, DNS is now controlled by cloudfare.
 
-****  Bananapi (terminal)
+****  setting up server on Bananapi (terminal)
 
 **  Installing webserver  
     *  install webserver "sudo apt install nginx"; this will also install "nginx-common";
@@ -76,6 +76,10 @@ Basics of MariaDB
    * updating table content (i.e wordpress): UPDATE wpxz_options SET option_value='http://alaminn.com' WHERE option_name IN ('siteurl','home');
    * Vieweing all the users: SELECT User, Host FROM mysql.user;
    * removing a user: DROP USER 'wpuser'@'localhost';
+
+
+
+
 
 
 Very important:
