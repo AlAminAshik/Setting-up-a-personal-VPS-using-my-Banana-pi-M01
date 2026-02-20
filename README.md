@@ -65,8 +65,32 @@ This repo contains all the processes and steps required to connected a domain fr
 
 
 
+## Wordpress
+*   I already had a exsisting website made using wordpress, so I copied all the resources to this new server.
+*   Keep the database name, password, and url exactly as the wp-config.php file.
+*   Edit the wp-config.php file using "sudo nano cd /var/www/wordpress/wordpress/wp-config.php
+*   If website do not load, maybe there is an issue with http and https, check both database and wp-config file
 
-**Basics of MariaDB**
+
+## Optimization
+*   I converted all images into webp format.
+*   Cloudfare gives free cache reserve which is very helpfull.
+*   Removed unnecessary plugings and themes.
+*   Home page need to be as light as possible.
+
+
+Very important:
+* I faced a issue where
+     > the site url and home url from wordpress dashboard setting/mysql table could not be both https. the siteurl can be https but not the home url, otherwise I cannot login to wp-admin. changing both to http worked, but in that case website is unstable, pictures could not load and many issues prevailed since originally the website is https from cloudfare so there is a improper https detection. Even reinstalling mysql and wordpress did not solve. This is solved by:
+     > solved by adding a condition on wp-config.php file. add this condition before the line /* That's all, stop editing! Happy publishing. */
+         define('FORCE_SSL_ADMIN', true);
+         if (strpos($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false) {
+             $_SERVER['HTTPS'] = 'on';
+         } else {
+             $_SERVER['HTTPS'] = 'off';
+         }
+
+## Basics of MariaDB
 *   installing mariaDB: sudo apt install mariadb-server -y
 *   secure database: sudo mysql_secure_installation. Set root password → YES, Remove anonymous users → YES, Disallow root remote login → YES, Remove test database → YES, Reload privileges → YES
 *   opening mariadb: sudo mysql -u root -p
@@ -84,31 +108,3 @@ This repo contains all the processes and steps required to connected a domain fr
    * updating table content (i.e wordpress): UPDATE wpxz_options SET option_value='http://alaminn.com' WHERE option_name IN ('siteurl','home');
    * Vieweing all the users: SELECT User, Host FROM mysql.user;
    * removing a user: DROP USER 'wpuser'@'localhost';
-
-
-
-
-**Wordpress**
-*   I already had a exsisting website made using wordpress, so I copied all the resources to this new server.
-*   Keep the database name, password, and url exactly as the wp-config.php file.
-*   Edit the wp-config.php file using "sudo nano cd /var/www/wordpress/wordpress/wp-config.php
-*   If website do not load, maybe there is an issue with http and https, check both database and wp-config file
-
-
-**Optimization**
-*   I converted all images into webp format.
-*   Cloudfare gives free cache reserve which is very helpfull.
-*   Removed unnecessary plugings and themes.
-*   Home page need to be as light as possible.
-
-
-Very important:
-* I faced a issue where
-     > the site url and home url from wordpress dashboard setting/mysql table could not be both https. the siteurl can be https but not the home url, otherwise I cannot login to wp-admin. changing both to http worked, but in that case website is unstable, pictures could not load and many issues prevailed since originally the website is https from cloudfare so there is a improper https detection. Even reinstalling mysql and wordpress did not solve. This is solved by:
-     > solved by adding a condition on wp-config.php file. add this condition before the line /* That's all, stop editing! Happy publishing. */
-         define('FORCE_SSL_ADMIN', true);
-         if (strpos($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false) {
-             $_SERVER['HTTPS'] = 'on';
-         } else {
-             $_SERVER['HTTPS'] = 'off';
-         }
