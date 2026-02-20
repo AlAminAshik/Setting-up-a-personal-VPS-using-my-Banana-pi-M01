@@ -1,8 +1,9 @@
 # Setting-up-a-personal-VPS-using-my-Banana-pi-M01
-This repo contains all the processes and steps required to connected a domain from dianahost with server as my bananpi M01. I will expose my Banana Pi M1 (Armbian Lite) to the public internet and point my domain to it so it behaves like a VPS.
+This repo contains all the processes and steps required to connected a domain from dianahost with server as my bananpi M1. I will expose my Banana Pi M1 (Armbian Lite) to the public internet and point my domain to it so it behaves like a VPS.
 
 **Pre-requisite**
 *   The bananpi M1 has only dual core processor and 1GB RAM, not enough to run a full linux, so I used a CLI version of Armbian OS, that is very light.
+*   OS (minimal) installed from Armbiarn website: https://www.armbian.com/bananapi/
 *   The board has no on-board wifi chip so it has be constantly connected to ethernet port.
 *   I already have a domain (alaminn.com) purchased from dianahost, and I will connect the server with this domain.
 *   Additionally, I used a 16GB memory card as the storage of this server.
@@ -14,30 +15,32 @@ This repo contains all the processes and steps required to connected a domain fr
 
 ## The steps are:
 
-**Setting up Dianahost (Domain provider):**
+**Setting up Domain (I bought it from Dianahost):**
 *   Go to cloudfare website.
-*   add your domain that is hoster on another platform.
+*   add your domain that is hosted on another platform(dianahost).
 *   Press onboard a domain, and it will give 2 nameservers.
 *   Go to dianahost domain list and change all the nameservers to the new nameservers.
 *   wait for some time, and you can verify whether the domain is live from the cloudfare website.
 *   Done, DNS is now controlled by cloudfare.
 
-**setting up server on Bananapi (terminal)**
+**Setting up server on Bananapi (terminal)**
 
-**  Installing webserver  
-*   install webserver "sudo apt install nginx"; this will also install "nginx-common";
+**Installing webserver*
+*   Install the OS on a microSD card using your computer and load onto the bananapi.
+*   Connect mouse, keyboard, and monitor to the bananapi. Setup and login.
+*   Install webserver by typing the following on the terminal "sudo apt install nginx"; this will also install "nginx-common";
 *   check if nginx is properly installed by typing "nginx"; this may output several failed attempts but it means it is working.
 *   Install cloudflared "wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm"
 *   move to local bin "sudo mv cloudflared-linux-arm /usr/local/bin/cloudflared"
 *   add super user executable permission "/usr/local/bin/cloudflared"
 *   check if properly installed "cloudflared --version"
     
-**  Authenticate tunnel from bananpi with cloudfare
-*   get the url "cloudflared tunnel login"
+**Authenticate tunnel from bananpi with cloudfare*
+*   Once cloudflared in installed get the url "cloudflared tunnel login"
 *   Open the url on the computer where cloudfare is logged in and authorize.
 *   If authorize is successfull, the terminal output on bananapi will show success.
 
-**  Get tunnel ID and edit contents
+**Get tunnel ID and edit contents*
 *   get the Tunnel ID  "cloudflared tunnel create bananapi-tunnel"
 *   create a tunnel configuraton file "nano ~/.cloudflared/config.yml"
 *   Add the following lines:
