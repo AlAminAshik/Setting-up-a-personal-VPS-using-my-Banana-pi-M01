@@ -29,10 +29,10 @@ This repo contains all the processes and steps required to connected a domain fr
 *   Install the OS on a microSD card using your computer and load onto the bananapi.
 *   Connect mouse, keyboard, and monitor to the bananapi. Setup and login.
 *   Install webserver by typing the following on the terminal "sudo apt install nginx"; this will also install "nginx-common";
-*   check if nginx is properly installed by typing "nginx"; this may output several failed attempts but it means it is working.
+*   check if nginx is properly installed by typing "sudo nginx"; this may output several failed attempts but it means it is working.
 *   Install cloudflared "wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm"
 *   move to local bin "sudo mv cloudflared-linux-arm /usr/local/bin/cloudflared"
-*   add super user executable permission "/usr/local/bin/cloudflared"
+*   add super user executable permission "sudo chmod +x /usr/local/bin/cloudflared"
 *   check if properly installed "cloudflared --version"
     
 **Authenticate tunnel from bananpi with cloudfare:*
