@@ -71,61 +71,62 @@ This repo contains all the processes and steps required to connected a domain fr
 ## Wordpress installation
 **Install pre-requisites:*
 *    I will now install wordpress, since I already have an existing portfolio website made using wordpress.
-*    Install PHP and its modules: "sudo apt install php-fpm php-mysql php-curl php-gd php-mbstring php-xml php-zip php-intl"
-*    Install database management system: "sudo apt install mariadb-server"
-*    secure database: "sudo mysql_secure_installation". Set root password → YES, Remove anonymous users → YES, Disallow root remote login → YES, Remove test database → YES, Reload privileges → YES
+*    Install PHP and its modules: `sudo apt install php-fpm php-mysql php-curl php-gd php-mbstring php-xml php-zip php-intl`
+*    Install database management system: `sudo apt install mariadb-server`
+*    secure database: `sudo mysql_secure_installation`. if it gives error type this instead `sudo mariadb-secure-installation`
+*    Set root password → 1234, switch to unix_socket → YES, Change root password → NO, Remove anonymous users → YES, Disallow root login remotely? → YES, Remove test database → YES, Reload privileges → YES
 *    Remember the root password you entered, this will be used to access the database.
 *    Now create a new database by using mariadb. Enter "sudo mysql -u root -p", enter root password and write the following lines:
-        * CREATE DATABASE mywordpress;
-        * CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'StrongPassword123!';
-        * GRANT ALL PRIVILEGES ON mywordpress.* TO 'wpuser'@'localhost';
-        * FLUSH PRIVILEGES;
-        * EXIT;
+`CREATE DATABASE mywordpress;`<br>
+`CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'StrongPassword123!';`<br>
+`GRANT ALL PRIVILEGES ON mywordpress.* TO 'wpuser'@'localhost';`<br>
+`FLUSH PRIVILEGES;`<br>
+`EXIT;`<br>
 *    keep in mind, your database credentials are:
         * database name: mywordpress
         * user name: wpuser
         * database password: StrongPassword123!
 
 **Install wordpress:*
-*    On root terminal, go to directory: "cd /var/www/". Here the wordpress files will be downloaded.
-*    make a directory named wordpress "sudo mkdir wordpress"
-*    enter the directory "cd wordpress"
-*    Download wordpress: "sudo wget https://wordpress.org/latest.tar.gz"
-*    Extract the zip file: "sudo tar -xzf latest.tar.gz"
-*    Adjust permission: "sudo chown -R www-data:www-data /var/www/wordpress"
-*    Adjust permission: "sudo chmod -R 755 /var/www/wordpress"
+*    On root terminal, go to directory: `cd /var/www/`. Here the wordpress files will be downloaded.
+*    make a directory named wordpress `sudo mkdir wordpress`
+*    enter the directory `cd wordpress`
+*    Download wordpress: `sudo wget https://wordpress.org/latest.tar.gz`
+*    Extract the zip file: `sudo tar -xzf latest.tar.gz`
+*    Adjust permission: `sudo chown -R www-data:www-data /var/www/wordpress`
+*    Adjust permission: `sudo chmod -R 755 /var/www/wordpress`
 
 **Setup server for wordpress:*
-*    Before configuring find the php version: "php -v"
-*    create a configuration file for alaminn.com: "sudo nano /etc/nginx/sites-available/alaminn.com". My php version was 8.4 so I used php8.4-fpm.sock;
-`server {
-    listen 80;
-    server_name alaminn.com;
-    root /var/www/wordpress/wordpress;
-    index index.php index.html index.htm;
-    location / {
-        try_files $uri $uri/ /index.php?$args;
-    }
-    location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php8.4-fpm.sock;
-    }
-    location ~ /\.ht {
-    deny all;
-    }
-}`
-*   Enable the site from available: "sudo ln -s /etc/nginx/sites-available/alaminn.com /etc/nginx/sites-enabled/"
-*   remove the default enabled site: "sudo rm /etc/nginx/sites-enabled/default". DONE
-*   Test the server: "sudo nginx -t". This will output 2 success.
-*   Finally, reload the server "sudo systemctl reload nginx".
-*   Preferably give final permission check: "sudo chown -R www-data:www-data /var/www/wordpress"
-*   Check the website from your browser: https://alaminn.com
+*    Before configuring find the php version: `php -v`, if it outputs something 8.4.16 then your php version is 8.4.
+*    create a configuration file for alaminn.com: `sudo nano /etc/nginx/sites-available/alaminn.com`. My php version was 8.4 so I used php8.4-fpm.sock;<br>
+`server {`<br>
+`    listen 80;`<br>
+`    server_name alaminn.com;`<br>
+`    root /var/www/wordpress/wordpress;`<br>
+`    index index.php index.html index.htm;`<br>
+`    location / {`<br>
+`        try_files $uri $uri/ /index.php?$args;`<br>
+`    }`<br>
+`    location ~ \.php$ {`<br>
+`        include snippets/fastcgi-php.conf;`<br>
+`        fastcgi_pass unix:/run/php/php8.4-fpm.sock;`<br>
+`    }`<br>
+`    location ~ /\.ht {`<br>
+`    deny all;`<br>
+`    }`<br>
+`}`<br>
+*   Enable the site from available: `sudo ln -s /etc/nginx/sites-available/alaminn.com /etc/nginx/sites-enabled/`. Carefully change the alaminn.com to your domain.
+*   remove the default enabled site: `sudo rm /etc/nginx/sites-enabled/default`. DONE
+*   Test the server: `sudo nginx -t`. This will output 2 success.
+*   Finally, reload the server `sudo systemctl reload nginx`.
+*   Preferably give final permission check: `sudo chown -R www-data:www-data /var/www/wordpress`
+*   Check the website from your browser: `https://alaminn.com`
 
 **Taking manual wordpress backup:*
 *   I already had a exsisting website made using wordpress, so I copied all the resources to this new server.
 *   Keep the database name, password, and url exactly as the wp-config.php file.
-*   Edit the wp-config.php file using "sudo nano cd /var/www/wordpress/wordpress/wp-config.php
-*   If website do not load, maybe there is an issue with http and https, check both database and wp-config file
+*   Edit the wp-config.php file using `sudo nano cd /var/www/wordpress/wordpress/wp-config.php`
+*   If website do not load, maybe there is an issue with http and https, check both database and wp-config file.
 
 
 ## Optimization
@@ -136,15 +137,15 @@ This repo contains all the processes and steps required to connected a domain fr
 
 
 Very important:
-* I faced a issue where
-     > the site url and home url from wordpress dashboard setting/mysql table could not be both https. the siteurl can be https but not the home url, otherwise I cannot login to wp-admin. changing both to http worked, but in that case website is unstable, pictures could not load and many issues prevailed since originally the website is https from cloudfare so there is a improper https detection. Even reinstalling mysql and wordpress did not solve. This is solved by:
-     > solved by adding a condition on wp-config.php file. add this condition before the line /* That's all, stop editing! Happy publishing. */
-         define('FORCE_SSL_ADMIN', true);
-         if (strpos($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false) {
-             $_SERVER['HTTPS'] = 'on';
-         } else {
-             $_SERVER['HTTPS'] = 'off';
-         }
+**I faced a issue where**
+*    **Problem**: The site url and home url from wordpress dashboard setting/mysql table could not be both https. the siteurl can be https but not the home url, otherwise I cannot login to wp-admin. changing both to http worked, but in that case website is unstable, pictures could not load and many issues prevailed since originally the website is https from cloudfare so there is a improper https detection. Even reinstalling mysql and wordpress did not solve. This is solved by:
+*    **Solved** by adding a condition on wp-config.php file. add this condition before the line /* That's all, stop editing! Happy publishing. */<br>
+`define('FORCE_SSL_ADMIN', true);`<br>
+`if (strpos($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false) {`<br>
+`    $_SERVER['HTTPS'] = 'on';`<br>
+`} else {`<br>
+`    $_SERVER['HTTPS'] = 'off';`<br>
+`}`<br>
 
 ## Basic uses of MariaDB
 *   installing mariaDB: sudo apt install mariadb-server -y
