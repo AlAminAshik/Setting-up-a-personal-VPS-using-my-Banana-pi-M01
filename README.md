@@ -122,21 +122,33 @@ This repo contains all the processes and steps required to connected a domain fr
 *   Preferably give final permission check: `sudo chown -R www-data:www-data /var/www/wordpress`
 *   Check the website from your browser: `https://alaminn.com`
 
-**Taking manual wordpress backup:*
+**Uploading manual wordpress backup files:*
 *   I already had a exsisting website made using wordpress, so I copied all the resources to this new server.
 *   Keep the database name, password, and url exactly as the wp-config.php file.
 *   Edit the wp-config.php file using `sudo nano cd /var/www/wordpress/wordpress/wp-config.php`
 *   If website do not load, maybe there is an issue with http and https, check both database and wp-config file.
 
 
-## Optimization
+## #Optimization
 *   I converted all images into webp format.
 *   Cloudfare gives free cache reserve which is very helpfull.
 *   Removed unnecessary plugings and themes.
 *   Home page need to be as light as possible.
 
 
-Very important:
+## #How to manually take backup of the website using terminal
+For this, we need to take backup of two directories, one is the wordpress folder and another is the database. here are the steps:
+*    Connect to bananapi via ssh.
+*    Move to the wordpress directory: `cd /var/www/wordpress`
+*    Compress the directory that contains all wordpress files (i.e. wordpress): `sudo tar -zcvf archive_name.tar.gz directory_to_compress/`. Note: use `sudo tar -zcf ...` if you dont want to see all the verbose outputs on the screen.
+*    after compression I copied the file onto my laptop using: `scp archive_name.tar.gz mdalaminashik@192.168.x.xxx:/Users/mdalaminashik/Downloads`
+*    Next export the target database: `sudo mariadb-dump -u [user_name] -p [database_name] > [output_file].sql`
+*    When prompted enter the passowrd of the database. you can find the password, username and name of database from wp-config file from wordpress directory.
+*    After export, I copied the file onto my laptop using: `scp [output_file].sql mdalaminashik@192.168.x.xxx:/Users/mdalaminashik/Downloads`
+*    And done taking the latest backup.
+
+
+## Very important:
 **I faced a issue where**
 *    **Problem**: The site url and home url from wordpress dashboard setting/mysql table could not be both https. the siteurl can be https but not the home url, otherwise I cannot login to wp-admin. changing both to http worked, but in that case website is unstable, pictures could not load and many issues prevailed since originally the website is https from cloudfare so there is a improper https detection. Even reinstalling mysql and wordpress did not solve. This is solved by:
 *    **Solved** by adding a condition on wp-config.php file. add this condition before the line /* That's all, stop editing! Happy publishing. */<br>
@@ -147,7 +159,7 @@ Very important:
 `    $_SERVER['HTTPS'] = 'off';`<br>
 `}`<br>
 
-## Basic uses of MariaDB
+## Some basic uses of MariaDB
 *   installing mariaDB: sudo apt install mariadb-server -y
 *   secure database: sudo mysql_secure_installation. Set root password → YES, Remove anonymous users → YES, Disallow root remote login → YES, Remove test database → YES, Reload privileges → YES
 *   opening mariadb: sudo mysql -u root -p
