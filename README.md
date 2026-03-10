@@ -1,5 +1,5 @@
 # Setting-up-a-personal-VPS-using-my-Banana-pi-M1
-![Alt text](images/my website.png)
+![Alt text](images/my_website.png)
 This repo contains all the processes and steps required to connected a domain from dianahost with server as my bananpi M1. I will expose my Banana Pi M1 (Armbian Lite) to the public internet and point my domain to it so it behaves like a VPS.
 
 **Pre-requisite**
