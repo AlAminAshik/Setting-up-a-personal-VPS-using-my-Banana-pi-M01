@@ -2,7 +2,7 @@
 ![Alt text](images/my_website.png)
 
 # Watch my youtube video covering in details
-<iframe width="560" height="315" src="https://www.youtube.com/embed/LYnn7_XODQo?si=WoA3rKA6UzBXxFui" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+https://youtu.be/LYnn7_XODQo?si=xXX6NzYeodiEvx7c
 
 <br>This repo contains all the processes and steps required to connected a domain from dianahost with server as my bananpi M1. I will expose my Banana Pi M1 (Armbian Lite) to the public internet and point my domain to it so it behaves like a VPS.
 
