@@ -1,6 +1,10 @@
 # Setting-up-a-personal-VPS-using-my-Banana-pi-M1
 ![Alt text](images/my_website.png)
-This repo contains all the processes and steps required to connected a domain from dianahost with server as my bananpi M1. I will expose my Banana Pi M1 (Armbian Lite) to the public internet and point my domain to it so it behaves like a VPS.
+
+# Watch my youtube video covering in details
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LYnn7_XODQo?si=WoA3rKA6UzBXxFui" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<br>This repo contains all the processes and steps required to connected a domain from dianahost with server as my bananpi M1. I will expose my Banana Pi M1 (Armbian Lite) to the public internet and point my domain to it so it behaves like a VPS.
 
 **Pre-requisite**
 *   The bananpi M1 has only dual core processor and 1GB RAM, not enough to run a full Linux, so I used a CLI version of Armbian OS, which is very light.
@@ -188,7 +192,7 @@ For this, we need to take backup of two directories, one is the wordpress folder
    * removing a user: DROP USER 'wpuser'@'localhost';
 
 
-** Important Fix (4th Apr, 2026) **
+<br>** Important Fix (4th Apr, 2026) **
 ![Alt text](images/1033_cloudflare_service_error.png)
 Recently, I faced an tunnel issue and my website would show "Error 1033 cloudlfare tunnel error". This was caused due to timeout issue of the cloudflared.service. The cloudflare service tries to start but it takes longer and so it does not start and thus the error.;
 To solve this:;
