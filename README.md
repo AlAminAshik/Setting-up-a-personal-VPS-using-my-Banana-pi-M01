@@ -13,7 +13,6 @@ This repo contains all the processes and steps required to connected a domain fr
 #Notes: Since my ISP uses CG-NAT (Bangladesh sigh!), I cannot directly connect my domain with bananapi and I require use cloudfare as a tunnel. If only I had public IPv4, it wouldn't be an issue. But guess what? cloudflare provides free SSL, DDoS protection, cache reserve, and more for free. I see this as an absolute win!
 
 
-
 ## The steps are:
 
 **Setting up Domain (I bought it from Dianahost):**
@@ -187,3 +186,30 @@ For this, we need to take backup of two directories, one is the wordpress folder
    * updating table content (i.e wordpress): UPDATE wpxz_options SET option_value='http://alaminn.com' WHERE option_name IN ('siteurl','home');
    * Vieweing all the users: SELECT User, Host FROM mysql.user;
    * removing a user: DROP USER 'wpuser'@'localhost';
+
+
+** Important Fix (4th Apr, 2026) **
+![Alt text](images/1033_cloudflare_service_error.png)
+Recently, I faced an tunnel issue and my website would show "Error 1033 cloudlfare tunnel error". This was caused due to timeout issue of the cloudflared.service. The cloudflare service tries to start but it takes longer and so it does not start and thus the error.;
+To solve this:;
+1. Edit the systemd service file: `sudo nano /etc/systemd/system/cloudflared.service`
+2. change according to the following:
+   `[Unit]`<br>
+`Description=cloudflared`<br>
+`After=network.target`<br>
+`[Service]`<br>
+`Type=simple`<br>
+`ExecStart=/usr/local/bin/cloudflared tunnel run`<br>
+`Restart=always`<br>
+`RestartSec=5`<br>
+`TimeoutStartSec=0`<br>
+`User=root`<br>
+`[Install]`<br>
+`WantedBy=multi-user.target`<br>
+This disables the timeout and enables auto-recover.
+3. Reload systemd:
+   `sudo systemctl daemon-reexec`<br>
+`sudo systemctl daemon-reload`<br>
+`sudo systemctl enable cloudflared`<br>
+`sudo systemctl restart cloudflared`<br>
+4. check status: `systemctl status cloudflared`
